@@ -1,0 +1,52 @@
+{% extends "html/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/index.css' %}">
+    <style>
+        body{
+            background-color: whitesmoke;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row">
+
+            <form class="col offset-l2 offset-m2 l8 m8 s12  card" action="{% url 'login' %}" method="post">
+
+                {% csrf_token %}
+
+                <h5 class="h3 mb-3 font-weight-normal">Εφαρμογή Ασφαλιστών</h5>
+
+                {% if message %}
+                    <div class="card red darken-1 white-text">
+                        {{ message }}
+                    </div>
+                {% endif %}
+
+                <label for="inputUsername" class="sr-only">Username</label>
+                <input type="text" id="inputUsername" class="form-control" placeholder="Όνομα Χρήστη" name="username" required autofocus>
+
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="inputPassword" class="form-control password" placeholder="Κωδικός" name="password" required>
+
+                <label class="togglePassword">
+                    <input type="checkbox" class="filled-in"><span>Show Password</span>
+                </label>
+
+                <br><br>
+
+                <button class="btn waves-effect waves-light" type="submit">Σύνδεση</button>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/index.js' %}" ></script>
+{% endblock %}

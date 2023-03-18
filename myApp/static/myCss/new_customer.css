@@ -1,0 +1,25 @@
+html, body {
+    height: 100%;
+    background-color: whitesmoke;
+}
+
+.body_buttons{
+    margin: 1rem;
+}
+
+.back_circle{
+    color: white;
+}
+
+.back_circle:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.submit_button{
+    margin-top: 1em;
+}
+
+.ui-datepicker{
+    z-index: 2000 !important
+}

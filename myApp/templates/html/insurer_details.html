@@ -1,0 +1,149 @@
+{% extends "html/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/dashboard.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'html/navbar.html' %}
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col s12">
+                <h5>
+                    Ασφαλιστής: {{ insurer.first_name }} {{ insurer.last_name }} <br>
+                    Συνολικές Πωλήσεις: {{ sum_insurer }}€ ({{ percentage }}%)
+                </h5>
+            </div>
+
+            <div class="col m6 s12">
+                <input type="text" id="myInput" aria-label="small" placeholder="Search..."
+                        aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+
+
+            <div class="col m6 s12">
+                <form method="post">
+                    {% csrf_token %}
+
+                        <div class="col m9 s12">
+                            <input type="text" id="myInputMonth" name="myInputMonth" aria-label="small" placeholder="Date of publish..."
+                               aria-describedby="inputGroup-sizing-sm" class="datepicker" required>
+                        </div>
+
+                        <div class="col m3 offset-s4 s6">
+                            <button class="btn search_by_date_button">Search</button>
+                        </div>
+
+                </form>
+            </div>
+
+            <div class="col s12">
+                {% if monthOfPublish %}
+                    <h5>Ασφάλειες για τον μήνα: {{ monthOfPublish }}</h5>
+                    <h6>Πωλήσεις για αυτόν τον μήνα ({{ monthOfPublish }}): {{ sum_month }}€</h6>
+                {% else %}
+                    <h5>Όλες οι ασφάλειες:</h5>
+                {% endif %}
+            </div>
+
+            {% if not has_insurances %}
+                <div class="col s12">
+                    <h6>No records</h6>
+                </div>
+            {% endif %}
+
+            <div class="col s12">
+                <ul class="collapsible popout">
+                    {% if insurances %}
+                        {% for insurance in insurances %}
+                            <li class="insurance_sale_card">
+                                <div class="collapsible-header">
+                                    Κωδικός Ασφάλειας: {{ insurance.insurance_code }} <br>
+                                    {{ insurance.customer.first_name }} {{ insurance.customer.last_name }},
+                                    ΑΦΜ: {{ insurance.customer.AFM }} <br>
+                                    Ασφάλιστρα: {{ insurance.insurance_premiums }} €
+                                </div>
+                                <div class="collapsible-body">
+                                    <table>
+                                        <tbody>
+                                                <tr>
+                                                    <td>
+                                                        Κωδικός Ασφαλίστρου:
+                                                    </td>
+                                                    <td>
+                                                        {{ insurance.insurance_code }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Ενεργή:
+                                                    </td>
+                                                    <td>
+                                                        {{ insurance.active }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Είδος Ασφάλισης:</td>
+                                                    <td>{{ insurance.kind_of_contract }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Ασφάλιστρα:
+                                                    </td>
+                                                    <td>
+                                                        {{ insurance.insurance_premiums }} €
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Ημερομηνία Έκδοσης:
+                                                    </td>
+                                                    <td>
+                                                        {{ insurance.dateOfPublish }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Ημερομηνία ανανέωσης:</td>
+                                                    <td>{{ insurance.renew_date }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        Μέθοδος Πληρωμής:
+                                                    </td>
+                                                    <td>
+                                                        {{ insurance.payment_method }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <a href="{% url 'insurance_details' insurance.insurance_code %}">
+                                                            Περισσότερες Πληροφορίες Ασφάλειας
+                                                        </a>
+                                                    </td>
+                                                    <td>
+
+                                                    </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/dashboard.js' %}"></script>
+    <script src="{% static 'myJS/insurer_details.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends "html/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/new_insurance.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'html/navbar.html' %}
+
+    <div class="container">
+        <h4>Δημιουργία νέας ασφάλισης</h4> <br>
+        <form action="{% url 'add_new_insurance' %}" method="post">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="input-field col m6 s12">
+                    <label for="customerInput">Πελάτης</label>
+                    <input type="text" id="customerInput" placeholder="Πελάτης" name="customer" required>
+                    <button type="button" data-target="modalCustomers" class="btn grey darken-2 modal-trigger waves-effect waves-light">
+                        Επιλογή Πελάτη
+                    </button>
+                    <button type="button" class="btn grey darken-2 waves-effect waves-light new_customer_button">
+                        Νέος Πελάτης
+                    </button>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="kind_of_contract" id="kind_of_contract_input" required autofocus>
+                        <option value="" disabled selected>Τύπος Συμβολάιου</option>
+                        <option value="Ζωής">Ζωής</option>
+                        <option value="Οχήματος">Οχήματος</option>
+                        <option value="Πυρός">Πυρός</option>
+                        <option value="Αστικής Ευθύνης">Αστικής Ευθύνης</option>
+                    </select>
+                    <label for="kind_of_contract_input">Τύπος Συμβολάιου</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="insurance_company" id="insurance_company_input" required autofocus>
+                        <option value="" disabled selected>Ασφαλιστική Εταιρία</option>
+                        <option value="Εθνική">Εθνική</option>
+                        <option value="NN">NN</option>
+                        <option value="Groupama">Groupama</option>
+                    </select>
+                    <label for="insurance_company_input">Ασφαλιστική Εταιρία</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                        <label for="renew_date_input">Ημερομηνία Ανανέωσης</label>
+                        <input type="text" id="renew_date_input" class="form-control datepicker"
+                               placeholder="Ημερομηνία Έκδοσης" name="renew_date" required>
+                </div>
+
+                <div class="input-field col m6 s12">
+                        <label for="dateOfPublishInput">Ημερομηνία Έκδοσης</label>
+                        <input type="text" id="dateOfPublishInput" class="form-control datepicker"
+                               placeholder="Ημερομηνία Έκδοσης" name="dateOfPublish" required>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="duration" id="durationInput" required>
+                        <option value="" disabled selected>Διάρκεια Ασφάλισης</option>
+                        <option value="Ετήσια">Ετήσια</option>
+                        <option value="Εξάμηνη">Εξάμηνη</option>
+                        <option value="Τρίμηνη">Τρίμηνη</option>
+                    </select>
+                    <label for="durationInput">Διάρκεια Ασφάλισης</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="paymentMethod" id="paymentMethodInput" required autofocus>
+                        <option value="" disabled selected>Τρόπος Καταβολής Ασφάλιστρου</option>
+                        <option value="Ετήσια">Ετήσια</option>
+                        <option value="Εξάμηνη">Εξάμηνη</option>
+                        <option value="Τρίμηνη">Τρίμηνη</option>
+                    </select>
+                    <label for="paymentMethodInput">Τρόπος Καταβολής Ασφάλιστρου</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                        <label for="insurancePremiumsInput">Ετήσια Καθαρά Ασφάλιστρα</label>
+                        <input type="number" step="any" id="insurancePremiumsInput" class="form-control"
+                               placeholder="Ετήσια Καθαρά Ασφάλιστρα" name="insurancePremiums" required>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <label for="insuranceCodeInput">Αριθμός Ασφαλιστηρίου</label>
+                    <input type="number" id="insuranceCodeInput" class="form-control"
+                           placeholder="Αριθμός Ασφαλιστηρίου" name="insuranceCode" required>
+                </div>
+
+                <div class="col s12">
+                    <button type="submit" class="btn submit_button">Δημιουργία νέας ασφάλισης</button>
+                </div>
+
+            </div>
+        </form>
+
+        <div id="modalCustomers" class="modal container">
+            <div class="modal-content row">
+                <div class="col s12">
+                    <input type="text" id="myInput" class="form-control" aria-label="Small" placeholder="Search..."
+                           aria-describedby="inputGroup-sizing-sm">
+                </div>
+                {% for customer in customers %}
+                    <div class="customer_list_item card col m6 s12 modal-close waves-effect waves-green">
+                        <div class="full_name">{{ customer.first_name }} {{ customer.last_name }}</div>
+                        <div class="afm">ΑΦΜ: {{ customer.AFM }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/dashboard.js' %}" ></script>
+    <script src="{% static 'myJS/new_insurance.js' %}" ></script>
+{% endblock %}

@@ -1,0 +1,95 @@
+{% extends "html/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'myCss/customer_details.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% include "html/navbar.html" %}
+
+    <div class="container">
+        <div class="row">
+            {% if message %}
+                {{ message }}
+            {% endif %}
+
+            {% if customer %}
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>Όνομα:</td>
+                            <td>{{ customer.first_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Επώνυμο:</td>
+                            <td>{{ customer.last_name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Διεύθυνση:</td>
+                            <td>{{ customer.address}}</td>
+                        </tr>
+                        <tr>
+                            <td>ΑΦΜ:</td>
+                            <td>{{ customer.AFM}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ημερομηνία Γέννησης:</td>
+                            <td>{{ customer.dateOfBirth}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ηλικία:</td>
+                            <td>{{ customer.age }}</td>
+                        </tr>
+                        <tr>
+                            <td>ΑΜΚΑ:</td>
+                            <td>{{ customer.AMKA }}</td>
+                        </tr>
+                        <tr>
+                            {% if insurance_count %}
+                                <td>Ασφάλειες: {{ insurance_count }}</td>
+                                <td>Κωδικοί:
+                                    {% if insurances %}
+                                        {% for insurance in insurances %}
+                                            (<a href="{% url 'insurance_details' insurance.insurance_code %}">
+                                                {{ insurance.insurance_code }}
+                                            </a>)
+                                        {% endfor %}
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    </tbody>
+                </table>
+                {% if not is_admin %}
+                    <div class="col s12">
+                        <a href="{% url 'update_customer' customer.id %}" class="btn btn-large">Επεξεργασία</a>
+                        <button type="button" data-target="modalCustomers" class="btn btn-large red darken-2 modal-trigger waves-effect waves-light">
+                            Διαγραφή
+                        </button>
+                    </div>
+                {% endif %}
+
+        {% endif %}
+        </div>
+    </div>
+
+        <div id="modalCustomers" class="modal container">
+            <div class="modal-content row">
+                <div class="col s12">
+                    <h6>Διαγραφή Πελάτη με ΑΦΜ: {{ customer.AFM }}</h6>
+                    <h6>Είστε σίγουροί;</h6>
+                    <a href="{% url 'delete_customer' customer.id %}" type="button" class="btn btn-large red darken-2 waves-effect waves-light">ΝΑΙ</a>
+                    <a href="" type="button" class="btn btn-large grey darken-2 waves-effect waves-light">ΌΧΙ</a>
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/dashboard.js' %}" ></script>
+    <script src="{% static 'myJS/customer_details.js' %}" ></script>
+{% endblock %}

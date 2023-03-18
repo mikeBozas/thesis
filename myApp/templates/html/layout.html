@@ -1,0 +1,31 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/fontawesome/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/materialize/materialize.min.css' %}">
+    <link rel="stylesheet" href="{% static 'myCss/all_css.css' %}">
+    {% block head %}
+
+    {% endblock %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>My App</title>
+</head>
+<body>
+
+    {% block body %}
+
+    {% endblock %}
+
+</body>
+
+<script src="{% static 'js/jquery331.min.js' %}"></script>
+<script src="{% static 'js/materialize/materialize.min.js' %}"></script>
+<script src="{% static 'myJS/layout.js' %}"></script>
+
+{% block JS %}
+{% endblock %}
+
+</html>

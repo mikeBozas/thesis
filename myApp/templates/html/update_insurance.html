@@ -1,0 +1,140 @@
+{% extends "html/layout.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/new_customer.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% include 'html/navbar.html' %}
+
+    <div class="container">
+        <h5>Ενημέρωση Στοιχείων Ασφάλειας με κωδικό: {{ insurance.insurance_code }}</h5>
+
+        <form action="{% url 'add_new_updated_insurance' insurance.id %}" method="post">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="input-field col m6 s12">
+                    <label for="customerInput">Πελάτης</label>
+                    <input type="text" id="customerInput" placeholder="Πελάτης" name="customer"
+                           value="{{ insurance.customer.first_name }} {{ insurance.customer.last_name }}, ΑΦΜ: {{ insurance.customer.AFM }}">
+                    <button type="button" data-target="modalCustomers" class="btn grey darken-2 modal-trigger waves-effect waves-light">
+                        Επιλογή Πελάτη
+                    </button>
+                    <button type="button" class="btn grey darken-2 waves-effect waves-light new_customer_button">
+                        Νέος Πελάτης
+                    </button>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="kind_of_contract" id="kind_of_contract_input">
+                        <option value="" disabled>Τύπος Συμβολάιου</option>
+                        <option value="Ζωής" {% if insurance.kind_of_contract == 'Ζωής' %}
+                            selected
+                        {% endif %}>Ζωής</option>
+                        <option value="Οχήματος" {% if insurance.kind_of_contract == 'Οχήματος' %}
+                            selected
+                        {% endif %}>Οχήματος</option>
+                        <option value="Πυρός" {% if insurance.kind_of_contract == 'Πυρός' %}
+                            selected
+                        {% endif %}>Πυρός</option>
+                        <option value="Αστικής Ευθύνης" {% if insurance.kind_of_contract == 'Αστικής Ευθύνης' %}
+                            selected
+                        {% endif %}>Αστικής Ευθύνης</option>
+                    </select>
+                    <label for="kind_of_contract_input">Τύπος Συμβολάιου</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="insurance_company" id="insurance_company_input">
+                        <option value="" disabled>Ασφαλιστική Εταιρία</option>
+                        <option value="Εθνική" {% if insurance.insurance_company == 'Εθνική' %}
+                            selected
+                        {% endif %}>Εθνική</option>
+                        <option value="NN" {% if insurance.insurance_company == 'NN' %}
+                            selected
+                        {% endif %}>NN</option>
+                        <option value="Groupama" {% if insurance.insurance_company == 'Groupama' %}
+                            selected
+                        {% endif %}>Groupama</option>
+                    </select>
+                    <label for="insurance_company_input">Ασφαλιστική Εταιρία</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                        <label for="renew_date_input">Ημερομηνία Ανανέωσης</label>
+                        <input type="text" id="renew_date_input" class="form-control datepicker"
+                               placeholder="Ημερομηνία Έκδοσης" name="renew_date" value="{{ insurance.renew_date|date:'Y-m-d' }}">
+                </div>
+
+                <div class="input-field col m6 s12">
+                        <label for="dateOfPublishInput">Ημερομηνία Έκδοσης</label>
+                        <input type="text" id="dateOfPublishInput" class="form-control datepicker"
+                               placeholder="Ημερομηνία Έκδοσης" name="dateOfPublish" value="{{ insurance.dateOfPublish|date:'Y-m-d' }}">
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="duration" id="durationInput">
+                        <option value="" disabled>Διάρκεια Ασφάλισης</option>
+                        <option value="Ετήσια" {% if insurance.duration == 'Ετήσια' %}
+                            selected
+                        {% endif %}>Ετήσια</option>
+                        <option value="Εξάμηνη" {% if insurance.duration == 'Εξάμηνη' %}
+                            selected
+                        {% endif %}>Εξάμηνη</option>
+                        <option value="Τρίμηνη" {% if insurance.duration == 'Τρίμηνη' %}
+                            selected
+                        {% endif %}>Τρίμηνη</option>
+                    </select>
+                    <label for="durationInput">Διάρκεια Ασφάλισης</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <select name="paymentMethod" id="paymentMethodInput">
+                        <option value="" disabled>Τρόπος Καταβολής Ασφάλιστρου</option>
+                        <option value="Ετήσια" {% if insurance.payment_method == 'Ετήσια' %}
+                            selected
+                        {% endif %}>Ετήσια</option>
+                        <option value="Εξάμηνη" {% if insurance.payment_method == 'Εξάμηνη' %}
+                            selected
+                        {% endif %}>Εξάμηνη</option>
+                        <option value="Τρίμηνη" {% if insurance.payment_method == 'Τρίμηνη' %}
+                            selected
+                        {% endif %}>Τρίμηνη</option>
+                    </select>
+                    <label for="paymentMethodInput">Τρόπος Καταβολής Ασφάλιστρου</label>
+                </div>
+
+                <div class="input-field col m6 s12">
+                        <label for="insurancePremiumsInput">Ετήσια Καθαρά Ασφάλιστρα</label>
+                        <input type="number" step="any" id="insurancePremiumsInput" class="form-control"
+                               placeholder="Ετήσια Καθαρά Ασφάλιστρα" name="insurancePremiums" value="{{ insurance.insurance_premiums|unlocalize }}">
+                </div>
+
+                <div class="input-field col m6 s12">
+                    <label for="insuranceCodeInput">Αριθμός Ασφαλιστηρίου</label>
+                    <input type="text" id="insuranceCodeInput" class="form-control" placeholder="Αριθμός Ασφαλιστηρίου"
+                           name="insuranceCode" value="{{ insurance.insurance_code }}">
+                </div>
+
+                <div class="col s12">
+                    <button type="submit" class="btn submit_button">Submit</button>
+                </div>
+
+            </div>
+
+        </form>
+
+    </div>
+
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/dashboard.js' %}" ></script>
+    <script src="{% static 'myJS/update_insurance.js' %}" ></script>
+{% endblock %}

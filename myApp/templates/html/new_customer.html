@@ -1,0 +1,68 @@
+{% extends "html/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/new_customer.css' %}">
+{% endblock %}
+
+{% block body %}
+
+    {% include "html/navbar.html" %}
+
+    <div class="container">
+        <h3>Εισαγωγή νέου πελάτη</h3> <br>
+        <form action="{% url 'add_new_customer' %}" method="post">
+
+            {% csrf_token %}
+
+            <div class="row">
+
+                <div class="input-field col l4 m6 s12">
+                        <label for="firstNameInput">Όνομα</label>
+                        <input type="text" id="firstNameInput" placeholder="Όνομα" name="first_name" required>
+                </div>
+
+                <div class="input-field col l4 m6 s12">
+                        <label for="lastNameInput">Επίθετο</label>
+                        <input type="text" id="lastNameInput" placeholder="Επίθετο" name="last_name" required>
+                </div>
+
+                <div class="input-field col l4 m6 s12">
+                        <label for="AFM_input">ΑΦΜ</label>
+                        <input type="number" id="AFM_input" placeholder="ΑΦΜ" name="AFM" required>
+                </div>
+
+                <div class="input-field col l4 m6 s12">
+                        <label for="AMKA_input">ΑΜΚΑ</label>
+                        <input type="number" id="AMKA_input" placeholder="ΑΜΚΑ" name="AMKA" required>
+                </div>
+
+                <div class="input-field col l4 m6 s12">
+                    <label for="addressInput">Διεύθηνση</label>
+                    <input type="text" id="addressInput" placeholder="Διεύθηνση" name="address" required>
+                </div>
+
+                <div class="input-field col l4 m6 s12">
+                        <label for="dateOfBirthInput">Ημερομηνία Γέννησης</label>
+                        <input type="text" id="dateOfBirthInput" class="datepicker"
+                               placeholder="Ημερομηνία Γέννησης" name="dateOfBirth" required>
+                </div>
+
+                <div class="input-field col l4 m6 s12">
+                        <label for="ageInput">Ηλικία</label>
+                        <input type="number" id="ageInput" class="form-control" placeholder="Ηλικία" name="age" required>
+                </div>
+
+                <div class="col s12">
+                    <button type="submit" class="btn btn-primary submit_button">Εισαγωγή νέου πελάτη</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/dashboard.js' %}" ></script>
+    <script src="{% static 'myJS/new_customer.js' %}" ></script>
+{% endblock %}

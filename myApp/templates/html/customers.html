@@ -1,0 +1,53 @@
+{% extends "html/layout.html" %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'myCss/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'myCss/statistics.css' %}">
+{% endblock %}
+
+{% block body%}
+
+    {% include "html/navbar.html" %}
+
+    <div class="container">
+        <div class="row">
+            {% if is_admin %}
+                 <div class="col s12">
+                    <h4>Πελάτες:</h4>
+                </div>
+            {% else %}
+                <div class="col s12">
+                    <h4>Οι πελάτες μου:</h4>
+                </div>
+            {% endif %}
+
+            <div class="col s12">
+                <input type="text" id="myInput" class="form-control" aria-label="Small" placeholder="Search..."
+                       aria-describedby="inputGroup-sizing-sm">
+            </div>
+
+            {% for customer in customers %}
+                <div class="col l6 s12 customer_list_item">
+                    <ul class="collapsible">
+                        <li>
+                            <div class="collapsible-header">{{ customer.first_name }} {{ customer.last_name }} <br>
+                                ΑΦΜ: {{ customer.AFM }} <br>
+                                Ασφάλειες: {{ customer.insurance_set.count }}
+                            </div>
+                            <div class="collapsible-body">
+                                <a href="{% url 'customer_details' customer.id %}">Πληροφορίες</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'myJS/dashboard.js' %}" ></script>
+    <script src="{% static 'myJS/statistics.js' %}" ></script>
+{% endblock %}

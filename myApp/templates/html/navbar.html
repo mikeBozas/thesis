@@ -1,0 +1,29 @@
+<div class="navbar-fixed">
+    <nav>
+        <div class="nav-wrapper brown darker-4 row">
+            <div class="col"><i class="fas fa-bars sidenav-trigger" data-target="mobile-demo"></i></div>
+            <div class="col hide-on-small-and-down">{{ user.last_name|capfirst }}</div>
+            <div class="col right">
+                <i class="fas fa-undo renew_button"></i>
+                Αποσύνδεση σε: <span id="countdown">20 : 00</span>
+            </div>
+        </div>
+    </nav>
+</div>
+
+<ul class="sidenav" id="mobile-demo">
+    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+    {% if is_admin %}
+        <li><a href="{% url 'insurers' %}">Ασφαλιστές</a></li>
+    {% endif %}
+    <li><a href="{% url 'customers' %}">Πελάτες</a></li>
+    <li><a href="{% url 'insurances_view' %}">Ασφάλειες</a></li>
+{#    <li><a href="{% url 'dependent_members' %}">Εξαρτώμενα Μέλη</a></li>#}
+    {% if not is_admin %}
+        <li><a href="{% url 'new_customer' %}">Νέος πελάτης</a></li>
+        <li><a href="{% url 'new_insurance' %}">Νέο ασφαλιστηρίο</a></li>
+{#        <li><a href="{% url 'new_dependent_member' %}">Νέο εξαρτώμενο μέλος</a></li>#}
+    {% endif %}
+    <div class="divider"></div>
+    <li><a href="{% url 'logout' %}" class="btn red darken-4 waves-effect waves-light">Αποσύνδεση</a></li>
+</ul>

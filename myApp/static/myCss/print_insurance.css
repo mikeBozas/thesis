@@ -1,0 +1,19 @@
+html{
+    background-color: white;
+}
+
+.navbar-fixed{
+    display: none;
+}
+
+.sidenav{
+    display: none;
+}
+
+.print_button{
+    display: none;
+}
+
+.edit_button{
+    display: none;
+}
